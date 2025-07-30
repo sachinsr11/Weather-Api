@@ -1,120 +1,86 @@
-# Weather API
+# 🌀 Weather-API — Flask App with Caching and Rate Limiting
 
-A RESTful API for retrieving weather information for cities around the world. Built with Node.js and Express.
+A Flask-based web app that fetches weather information using the Visual Crossing API. It includes Redis caching and rate-limiting via `Flask-Limiter` to improve performance and control request usage.
 
-## Features
+---
 
-- Get current weather data for a city
-- Fetch weather forecasts
-- Supports JSON responses
-- Easy to integrate with frontend applications
+## 🚀 Features
 
-## Technologies Used
+- ☀️ Fetch real-time weather for any location using Visual Crossing.
+- 🚀 Redis caching for faster repeated queries.
+- 🛡️ API rate limiting (200/day, 50/hour per IP).
+- 🖥️ Clean web interface built with HTML & JS.
+- 🔐 Environment-based API key management.
 
-- Node.js
-- Express.js
-- Axios (for external API requests)
-- dotenv (for environment variables)
+---
 
-## Getting Started
+## 🧱 Tech Stack
 
-### Prerequisites
+- [Flask](https://flask.palletsprojects.com/)
+- [Redis](https://redis.io/)
+- [Flask-Limiter](https://flask-limiter.readthedocs.io/)
+- [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api)
 
-- Node.js (v14 or higher)
-- npm
+---
 
-### Installation
+## 🔧 Setup Instructions
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/weather-api.git
-   cd weather-api
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Create a `.env` file in the root directory and add your weather API key:
-   ```
-   WEATHER_API_KEY=your_api_key_here
-   ```
-
-### Running the Server
+### 1. Clone the Repo
 
 ```bash
-npm start
+git clone https://github.com/sachinsr11/Weather-Api.git
+cd Weather-Api
 ```
 
-The server will start on `http://localhost:3000` by default.
+### 2. Install Dependencies
 
-## API Endpoints
-
-### Get Current Weather
-
-- **Endpoint:** `/api/weather/current`
-- **Method:** `GET`
-- **Query Parameters:**
-  - `city` (required): Name of the city
-
-**Example Request:**
-```
-GET /api/weather/current?city=London
+```bash
+pip install -r requirements.txt
 ```
 
-**Example Response:**
-```json
-{
-  "city": "London",
-  "temperature": 15,
-  "description": "Partly cloudy",
-  "humidity": 70
-}
+### 3. Set the API Key
+
+Create a `.env` file or set the environment variable manually:
+
+```bash
+export WEATHER_API_KEY=your_visual_crossing_api_key
 ```
 
-### Get Weather Forecast
+### 4. Start Redis (Required)
 
-- **Endpoint:** `/api/weather/forecast`
-- **Method:** `GET`
-- **Query Parameters:**
-  - `city` (required): Name of the city
-  - `days` (optional): Number of days for the forecast (default: 3)
-
-**Example Request:**
-```
-GET /api/weather/forecast?city=London&days=5
+Make sure Redis is running locally on port `6379`:
+```bash
+redis-server
 ```
 
-**Example Response:**
-```json
-{
-  "city": "London",
-  "forecast": [
-    { "date": "2024-06-01", "temperature": 16, "description": "Sunny" },
-    { "date": "2024-06-02", "temperature": 14, "description": "Rainy" }
-    // ...
-  ]
-}
+### 5. Run the App
+
+```bash
+python main.py
 ```
 
-## Environment Variables
+Go to `http://localhost:5000` and start querying!
 
-- `WEATHER_API_KEY`: Your API key for the external weather service.
+---
 
-## Error Handling
+## 🔁 Example Usage (API)
 
-All errors are returned in JSON format:
-```json
-{
-  "error": "City not found"
-}
+```
+GET /London?start=2023-07-01&end=2023-07-03
 ```
 
-## License
+Returns weather data for London between the given dates.
 
-MIT
+---
 
-## Contact
+## 🧠 Notes
 
-For questions or support, contact [your.email@example.com](mailto:your.email@example.com).
+- Redis cache duration: 2 hours.
+- Flask runs in debug mode — disable in production.
+- Rate limits are enforced per IP using Redis as a backend.
+
+---
+
+## 📜 License
+
+MIT License. See [LICENSE](LICENSE) for details.
